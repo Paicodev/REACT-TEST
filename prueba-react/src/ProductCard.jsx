@@ -1,7 +1,16 @@
 import React from 'react';
+import { useState } from 'react';
 
 // Componente funcional de React que recibe props para mostrar la tarjeta del producto
-function ProductCard({ link = '#', imgSrc, title, puntos, stock }) {
+function ProductCard({ link = '#', imgSrc, title, puntos, stockInicial }) {
+const [stockActual, setStock] = useState(stockInicial);
+
+const comprarProducto = () => {
+    if (stockActual > 0){
+      setStock (stockActual - 1);
+    }
+  };
+
   return (
     <a href={link}>
         <div className="producto">
@@ -18,8 +27,14 @@ function ProductCard({ link = '#', imgSrc, title, puntos, stock }) {
                     <h3>{puntos}</h3>
                     <p>PUNTOS</p>
                     
+                
+
+                    <button onClick= {comprarProducto} className="boton-agregar">
+                        Agregar (Quedan: {stockActual})
+                    </button>
+
                     {/* El <% if (locals.stock === 0) { %> de EJS se convierte en este "&&" mágico de React */}
-                    {stock === 0 && (
+                    {stockActual === 0 && (
                         <div 
                             className="badge-sin-stock" 
                           // Estilos en linea
